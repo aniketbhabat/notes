@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <style>
+        *{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'poppins' ,sans-serif;
+    background-color: pink;
+
+}
+.container{
+    width: 100%;
+    background: linear-gradient(135deg  , #cf9aff) , #95c0ff;
+    min-height: 100vh;
+    color: #fff;
+    padding-top: 4%;
+    padding-left: 10%;
+
+}
+
+.container h1{
+    display: flex;
+    align-items: center;
+    font-size: 35px;
+    font-weight: 600;
+} 
+
+.container h1 img{
+    width: 60px;
+
+}
+.container button img{
+    width: 25px;
+    margin-right: 8px;
+    background-color:blue;
+}
+.container button{
+    display: flex;
+    align-items: center;
+    background-color: blue;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 40px;
+    outline: 0;
+    border: 0;
+    margin: 30px 0 20px;
+    padding: 15px 25px;
+
+}
+.input-box{
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    min-height: 150px;
+    background: #fff;
+    color: #333;
+    border-radius: 5px;
+    outline: none;
+    margin: 20px 0;
+    padding: 20px;
+}
+.input-box img{
+    width: 25px;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> <img src="images/notes.png"> Notes</h1>
+        <button class="btn"> <img src="images/edit.png"> Create Notes</button>
+        <div class="notes-container">
+            <!-- <p containteditable ="true" class="input-box" >
+                <img src="images/delete.png"> </p> -->
+        </div>
+    </div>
+    <script>
+        const notesContainer = document.querySelector(".notes-container");
+const createBtn = document.querySelector(".btn");
+let notes = document.querySelectorAll(".input-box");
+
+function showNotes (){
+    notesContainer.innerHTML = localStorage.getItem("notes");
+}
+
+showNotes();
+
+function updateStorage(){
+    localStorage.setItem("notes" , notesContainer.innerHTML);
+}
+
+
+createBtn.addEventListener("click" ,()=>{
+    let inputBox = document.createElement("p");
+    let img = document.createElement("img");
+    inputBox.className = "input-box";
+    inputBox.setAttribute("contenteditable" , "true");
+    img.src = "images/delete.png";
+    notesContainer.appendChild(inputBox).appendChild(img);
+})
+
+notesContainer.addEventListener("click" , function(e){
+    if(e.target.tagName === "IMG"){
+        e.target.parentElement.remove();
+        updateStorage();
+    }
+    else if(e.target.tagName === "p" ){
+        notes = document.querySelectorAll(".input-box");
+        notes.forEach(nt =>{
+            nt.onkeyup = function(){
+                updateStorage();
+            }
+        })
+
+    }
+})
+    </script>
+</body>
+</html>
